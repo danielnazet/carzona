@@ -1,100 +1,117 @@
-import { Timer, Users, Gauge } from "lucide-react";
-
-const auctions = [
-	{
-		id: 1,
-		title: "2023 BMW M4 Competition",
-		image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80",
-		currentBid: 75000,
-		timeLeft: "2d 5h",
-		bids: 23,
-		mileage: "1,200 mi",
-	},
-	{
-		id: 2,
-		title: "2022 Porsche 911 GT3",
-		image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80",
-		currentBid: 165000,
-		timeLeft: "1d 12h",
-		bids: 45,
-		mileage: "3,500 mi",
-	},
-	{
-		id: 3,
-		title: "2024 Audi RS e-tron GT",
-		image: "https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?auto=format&fit=crop&q=80",
-		currentBid: 120000,
-		timeLeft: "3d 8h",
-		bids: 18,
-		mileage: "500 mi",
-	},
-];
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Timer, Users, Gauge, MapPin } from "lucide-react";
+import { supabase } from "../../lib/supabase";
+import { formatPrice, formatDistance } from "../../lib/constants";
 
 const FeaturedAuctions = () => {
+	const [latestListings, setLatestListings] = useState([]);
+	const [loading, setLoading] = useState(true);
+
+	useEffect(() => {
+		fetchLatestListings();
+	}, []);
+
+	const fetchLatestListings = async () => {
+		try {
+			const { data, error } = await supabase
+				.from("car_listings")
+				.select(
+					`
+          *,
+          car_images (
+            image_url,
+            position
+          )
+        `
+				)
+				.eq("status", "active")
+				.order("created_at", { ascending: false })
+				.limit(3);
+
+			if (error) throw error;
+			setLatestListings(data || []);
+		} catch (err) {
+			console.error("Error fetching listings:", err);
+		} finally {
+			setLoading(false);
+		}
+	};
+
 	return (
 		<section className="py-16 px-4 sm:px-8 bg-base-200">
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center mb-12">
-					<h2 className="text-4xl font-bold mb-4">
-						Featured Auctions
-					</h2>
+					<h2 className="text-4xl font-bold mb-4">Latest Listings</h2>
 					<p className="text-lg text-base-content/70">
-						Bid on exclusive cars from verified sellers
+						Check out our most recent car listings
 					</p>
 				</div>
 
-				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-					{auctions.map((auction) => (
-						<div
-							key={auction.id}
-							className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow"
-						>
-							<figure className="px-4 pt-4">
-								<img
-									src={auction.image}
-									alt={auction.title}
-									className="rounded-xl h-48 w-full object-cover"
-								/>
-							</figure>
-							<div className="card-body">
-								<h3 className="card-title">{auction.title}</h3>
-								<div className="flex justify-between items-center mt-2">
-									<div className="text-primary font-semibold">
-										Current Bid:
-										<span className="text-lg ml-1">
-											$
-											{auction.currentBid.toLocaleString()}
-										</span>
+				{loading ? (
+					<div className="flex justify-center">
+						<span className="loading loading-spinner loading-lg text-primary"></span>
+					</div>
+				) : (
+					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+						{latestListings.map((listing) => (
+							<Link
+								key={listing.id}
+								to={`/listings/${listing.id}`}
+								className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow"
+							>
+								<figure className="relative h-48">
+									<img
+										src={
+											listing.car_images?.[0]
+												?.image_url ||
+											"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
+										}
+										alt={listing.title}
+										className="w-full h-full object-cover"
+									/>
+									<div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-4">
+										<p className="text-white font-semibold text-lg">
+											{formatPrice(listing.price)}
+										</p>
 									</div>
-									<div className="flex items-center gap-1 text-warning">
-										<Timer className="w-4 h-4" />
-										<span>{auction.timeLeft}</span>
+								</figure>
+								<div className="card-body p-4">
+									<h3 className="card-title text-lg">
+										{listing.title}
+									</h3>
+									<div className="grid grid-cols-2 gap-2 mt-2 text-sm text-base-content/70">
+										<div className="flex items-center gap-1">
+											<Timer className="w-4 h-4" />
+											<span>{listing.year}</span>
+										</div>
+										<div className="flex items-center gap-1">
+											<Gauge className="w-4 h-4" />
+											<span>
+												{formatDistance(
+													listing.kilometers
+												)}
+											</span>
+										</div>
+										<div className="flex items-center gap-1">
+											<Users className="w-4 h-4" />
+											<span>{listing.transmission}</span>
+										</div>
+										<div className="flex items-center gap-1">
+											<MapPin className="w-4 h-4" />
+											<span>{listing.location}</span>
+										</div>
 									</div>
 								</div>
-								<div className="flex justify-between text-sm text-base-content/70 mt-4">
-									<div className="flex items-center gap-1">
-										<Users className="w-4 h-4" />
-										<span>{auction.bids} bids</span>
-									</div>
-									<div className="flex items-center gap-1">
-										<Gauge className="w-4 h-4" />
-										<span>{auction.mileage}</span>
-									</div>
-								</div>
-								<div className="card-actions mt-4">
-									<button className="btn btn-primary btn-block">
-										Place Bid
-									</button>
-								</div>
-							</div>
-						</div>
-					))}
-				</div>
+							</Link>
+						))}
+					</div>
+				)}
 
 				<div className="text-center mt-12">
-					<button className="btn btn-outline btn-wide">
-						View All Auctions
-					</button>
+					<Link to="/browse" className="btn btn-outline btn-wide">
+						View All Listings
+					</Link>
 				</div>
 			</div>
 		</section>

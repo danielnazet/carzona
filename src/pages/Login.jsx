@@ -38,8 +38,8 @@ const Login = () => {
 
 			if (signInError) throw signInError;
 
-			// Redirect to home page after successful login
-			navigate("/");
+			// Since email confirmation is disabled, redirect to welcome page
+			navigate("/welcome");
 		} catch (err) {
 			console.error("Login error:", err);
 			setError("Invalid email or password");
@@ -58,7 +58,7 @@ const Login = () => {
 						</div>
 						<h2 className="text-3xl font-bold">Welcome back</h2>
 						<p className="mt-2 text-base-content/70">
-							Sign in to your Carzona account
+							Sign in to your account
 						</p>
 					</div>
 

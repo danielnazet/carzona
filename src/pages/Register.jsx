@@ -5,7 +5,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import MainLayout from "../layouts/MainLayout";
-import { Car, AlertCircle } from "lucide-react";
+import {
+	Car,
+	AlertCircle,
+	Mail,
+	Lock,
+	User,
+	Phone,
+	Eye,
+	EyeOff,
+} from "lucide-react";
 
 const registerSchema = z
 	.object({
@@ -13,9 +22,7 @@ const registerSchema = z
 			.string()
 			.min(2, "First name must be at least 2 characters"),
 		lastName: z.string().min(2, "Last name must be at least 2 characters"),
-		phone: z
-			.string()
-			.min(10, "Phone number must be at least 10 characters"),
+		phone: z.string().min(9, "Phone number must be at least 9 characters"),
 		email: z.string().email("Invalid email address"),
 		password: z.string().min(6, "Password must be at least 6 characters"),
 		confirmPassword: z.string(),
@@ -28,6 +35,8 @@ const registerSchema = z
 const Register = () => {
 	const [error, setError] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
+	const [showPassword, setShowPassword] = useState(false);
+	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const navigate = useNavigate();
 
 	const {
@@ -43,7 +52,6 @@ const Register = () => {
 			setIsLoading(true);
 			setError("");
 
-			// First, sign up the user with Supabase Auth
 			const { data: authData, error: signUpError } =
 				await supabase.auth.signUp({
 					email: data.email,
@@ -60,7 +68,6 @@ const Register = () => {
 			if (signUpError) throw signUpError;
 
 			if (authData?.user) {
-				// After successful signup, insert into profiles table
 				const { error: profileError } = await supabase
 					.from("profiles")
 					.insert({
@@ -69,19 +76,17 @@ const Register = () => {
 						last_name: data.lastName,
 						phone: data.phone,
 						email: data.email,
-					})
-					.select()
-					.single();
+					});
 
 				if (profileError) {
 					console.error("Profile creation error:", profileError);
+					await supabase.auth.signOut();
 					throw new Error(
 						"Failed to create profile. Please try again."
 					);
 				}
 
-				// Navigate to success page
-				navigate("/register-success");
+				navigate("/welcome");
 			}
 		} catch (err) {
 			console.error("Registration error:", err);
@@ -103,7 +108,7 @@ const Register = () => {
 							Create your account
 						</h2>
 						<p className="mt-2 text-base-content/70">
-							Join Carzona to start your car journey
+							Join us to start your car journey
 						</p>
 					</div>
 
@@ -123,7 +128,8 @@ const Register = () => {
 								<div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 									<div className="form-control">
 										<label className="label">
-											<span className="label-text">
+											<span className="label-text flex items-center gap-2">
+												<User className="h-4 w-4" />
 												First Name
 											</span>
 										</label>
@@ -144,7 +150,8 @@ const Register = () => {
 
 									<div className="form-control">
 										<label className="label">
-											<span className="label-text">
+											<span className="label-text flex items-center gap-2">
+												<User className="h-4 w-4" />
 												Last Name
 											</span>
 										</label>
@@ -166,7 +173,8 @@ const Register = () => {
 
 								<div className="form-control">
 									<label className="label">
-										<span className="label-text">
+										<span className="label-text flex items-center gap-2">
+											<Phone className="h-4 w-4" />
 											Phone Number
 										</span>
 									</label>
@@ -174,7 +182,7 @@ const Register = () => {
 										type="tel"
 										{...register("phone")}
 										className="input input-bordered w-full"
-										placeholder="+1234567890"
+										placeholder="+48123456789"
 									/>
 									{errors.phone && (
 										<label className="label">
@@ -187,7 +195,8 @@ const Register = () => {
 
 								<div className="form-control">
 									<label className="label">
-										<span className="label-text">
+										<span className="label-text flex items-center gap-2">
+											<Mail className="h-4 w-4" />
 											Email
 										</span>
 									</label>
@@ -208,16 +217,36 @@ const Register = () => {
 
 								<div className="form-control">
 									<label className="label">
-										<span className="label-text">
+										<span className="label-text flex items-center gap-2">
+											<Lock className="h-4 w-4" />
 											Password
 										</span>
 									</label>
-									<input
-										type="password"
-										{...register("password")}
-										className="input input-bordered w-full"
-										placeholder="••••••••"
-									/>
+									<div className="relative">
+										<input
+											type={
+												showPassword
+													? "text"
+													: "password"
+											}
+											{...register("password")}
+											className="input input-bordered w-full pr-10"
+											placeholder="••••••••"
+										/>
+										<button
+											type="button"
+											className="absolute right-3 top-1/2 -translate-y-1/2"
+											onClick={() =>
+												setShowPassword(!showPassword)
+											}
+										>
+											{showPassword ? (
+												<EyeOff className="h-4 w-4 text-base-content/70" />
+											) : (
+												<Eye className="h-4 w-4 text-base-content/70" />
+											)}
+										</button>
+									</div>
 									{errors.password && (
 										<label className="label">
 											<span className="label-text-alt text-error">
@@ -229,16 +258,38 @@ const Register = () => {
 
 								<div className="form-control">
 									<label className="label">
-										<span className="label-text">
+										<span className="label-text flex items-center gap-2">
+											<Lock className="h-4 w-4" />
 											Confirm Password
 										</span>
 									</label>
-									<input
-										type="password"
-										{...register("confirmPassword")}
-										className="input input-bordered w-full"
-										placeholder="••••••••"
-									/>
+									<div className="relative">
+										<input
+											type={
+												showConfirmPassword
+													? "text"
+													: "password"
+											}
+											{...register("confirmPassword")}
+											className="input input-bordered w-full pr-10"
+											placeholder="••••••••"
+										/>
+										<button
+											type="button"
+											className="absolute right-3 top-1/2 -translate-y-1/2"
+											onClick={() =>
+												setShowConfirmPassword(
+													!showConfirmPassword
+												)
+											}
+										>
+											{showConfirmPassword ? (
+												<EyeOff className="h-4 w-4 text-base-content/70" />
+											) : (
+												<Eye className="h-4 w-4 text-base-content/70" />
+											)}
+										</button>
+									</div>
 									{errors.confirmPassword && (
 										<label className="label">
 											<span className="label-text-alt text-error">
