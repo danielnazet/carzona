@@ -42,9 +42,11 @@ const FeaturedAuctions = () => {
 		<section className="py-16 px-4 sm:px-8 bg-base-200">
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center mb-12">
-					<h2 className="text-4xl font-bold mb-4">Latest Listings</h2>
+					<h2 className="text-4xl font-bold mb-4">
+						Najnowsze ogłoszenia
+					</h2>
 					<p className="text-lg text-base-content/70">
-						Check out our most recent car listings
+						Sprawdź nasze najnowsze oferty samochodów
 					</p>
 				</div>
 
@@ -110,7 +112,7 @@ const FeaturedAuctions = () => {
 
 				<div className="text-center mt-12">
 					<Link to="/browse" className="btn btn-outline btn-wide">
-						View All Listings
+						Zobacz wszystkie ogłoszenia
 					</Link>
 				</div>
 			</div>

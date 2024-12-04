@@ -1,4 +1,4 @@
-import { Car, Facebook, Twitter, Instagram, Youtube } from "lucide-react";
+import { Car, Facebook, Instagram, Youtube } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Footer = () => {
@@ -7,9 +7,9 @@ const Footer = () => {
 			<div>
 				<div className="flex items-center gap-2">
 					<Car className="w-8 h-8" />
-					<p className="font-bold text-xl">CarZona</p>
+					<p className="font-bold text-xl">Carzona</p>
 				</div>
-				<p>Providing reliable car marketplace since 2024</p>
+				<p>Zapewniamy niezawodny rynek samochodowy od 2024 roku</p>
 			</div>
 
 			<div>

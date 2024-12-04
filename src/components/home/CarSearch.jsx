@@ -44,12 +44,12 @@ const CarSearch = () => {
 		<section className="py-16 px-4 sm:px-8">
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center mb-10">
-					<h2 className="text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-						Find Your Perfect Match
+					<h2 className="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+						Odkryj idealne auto dla siebie
 					</h2>
 					<p className="text-base-content/70 text-lg">
-						Search through thousands of cars with our advanced
-						filters
+						Przeszukaj tysiące samochodów za pomocą naszych
+						zaawansowanych filtrów
 					</p>
 				</div>
 
@@ -62,13 +62,13 @@ const CarSearch = () => {
 									<div className="join-item flex-1">
 										<input
 											type="text"
-											placeholder="Search by make, model, or keyword..."
+											placeholder="Szukaj po marce, modelu lub słowie kluczowym..."
 											className="input input-bordered w-full h-14 text-lg focus:outline-primary"
 										/>
 									</div>
 									<button className="btn btn-primary join-item px-8 h-14">
 										<Search className="h-5 w-5 mr-2" />
-										Search
+										Szukaj
 									</button>
 								</div>
 							</div>
@@ -87,7 +87,7 @@ const CarSearch = () => {
 								) : (
 									<>
 										<SlidersHorizontal className="h-5 w-5" />
-										<span>Filters</span>
+										<span>Filtry</span>
 									</>
 								)}
 							</button>

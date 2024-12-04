@@ -60,34 +60,35 @@ const Navbar = () => {
 					</Link>
 
 					{/* Main Navigation */}
+					{user ? (
+						<Link
+							to="/create-listing"
+							className="btn btn-primary btn-sm"
+						>
+							<Plus className="w-4 h-4 mr-1" />
+							Dodaj auto
+						</Link>
+					) : (
+						<Link
+							to="/login"
+							className="hover:text-primary transition-colors"
+						>
+							Dodaj auto
+						</Link>
+					)}
 					<div className="hidden lg:flex items-center gap-6 text-sm font-medium text-base-content/70">
 						<Link
 							to="/browse"
 							className="hover:text-primary transition-colors"
 						>
-							Browse Cars
+							Przeglądaj samochody
 						</Link>
-						{user ? (
-							<Link
-								to="/create-listing"
-								className="btn btn-primary btn-sm"
-							>
-								<Plus className="w-4 h-4 mr-1" />
-								Sell Car
-							</Link>
-						) : (
-							<Link
-								to="/login"
-								className="hover:text-primary transition-colors"
-							>
-								Sell Car
-							</Link>
-						)}
+
 						<Link
 							to="/auctions"
 							className="hover:text-primary transition-colors"
 						>
-							Auctions
+							Aukcje
 						</Link>
 					</div>
 
@@ -96,7 +97,7 @@ const Navbar = () => {
 						<div className="relative">
 							<input
 								type="text"
-								placeholder="Search cars, brands, or models..."
+								placeholder="Szukaj auto"
 								className="input input-bordered w-full h-10 pl-10 pr-4 bg-base-100/50 focus:bg-white text-sm border-base-200 focus:border-primary/30 focus:ring-1 focus:ring-primary/30"
 							/>
 							<Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/50" />
@@ -109,7 +110,7 @@ const Navbar = () => {
 						<button className="btn btn-ghost btn-sm text-base-content/70 hidden sm:flex">
 							<MapPin className="w-4 h-4" />
 							<span className="hidden lg:inline text-sm">
-								Location
+								Lokalizacja
 							</span>
 						</button>
 
@@ -117,7 +118,7 @@ const Navbar = () => {
 						<button className="btn btn-ghost btn-sm text-base-content/70">
 							<Heart className="w-4 h-4" />
 							<span className="hidden lg:inline text-sm">
-								Saved
+								Ulubione
 							</span>
 						</button>
 
@@ -131,7 +132,7 @@ const Navbar = () => {
 									className="btn btn-ghost btn-circle avatar"
 								>
 									<div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-										<User className="w-5 h-5 text-primary" />
+										<User className="w-9 h-8 text-primary" />
 									</div>
 								</label>
 								<ul
