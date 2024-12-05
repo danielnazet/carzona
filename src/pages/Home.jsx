@@ -1,6 +1,7 @@
 import MainLayout from "../layouts/MainLayout";
 import CarSearch from "../components/home/CarSearch";
 import FeaturedAuctions from "../components/home/FeaturedAuctions";
+import { Link } from "react-router-dom";
 
 const Home = () => {
 	return (
@@ -24,6 +25,14 @@ const Home = () => {
 							i prywatnych sprzedawców. Twoje idealne auto jest na
 							wyciągnięcie ręki
 						</p>
+						<div className="flex flex-col sm:flex-row gap-4 justify-center">
+							<Link
+								to="/create-listing"
+								className="btn btn-secondary"
+							>
+								Sprzedaj Swój Samochód
+							</Link>
+						</div>
 					</div>
 				</div>
 

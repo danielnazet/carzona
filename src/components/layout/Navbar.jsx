@@ -196,7 +196,7 @@ const Navbar = () => {
 				<div className="relative">
 					<input
 						type="text"
-						placeholder="Search cars..."
+						placeholder="Szukaj"
 						className="input input-bordered w-full h-10 pl-10 pr-4 bg-base-100/50 text-sm"
 					/>
 					<Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-base-content/50" />
