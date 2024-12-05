@@ -211,19 +211,9 @@ const ListingDetails = () => {
 										</div>
 										<div className="flex items-center gap-2">
 											<Zap className="w-5 h-5 text-base-content/70" />
-											<span>{listing.horsepower} HP</span>
+											<span>{listing.horsepower} KM</span>
 										</div>
 									</div>
-
-									<div className="divider"></div>
-
-									<h2 className="text-xl font-semibold mb-4">
-										Description
-									</h2>
-									<p className="whitespace-pre-line text-base-content/80">
-										{listing.description}
-									</p>
-
 									<div className="divider"></div>
 
 									<h2 className="text-xl font-semibold mb-4">
@@ -278,7 +268,30 @@ const ListingDetails = () => {
 												{listing.location}
 											</p>
 										</div>
+										<div>
+											<p className="text-sm text-base-content/70">
+												Condition:
+											</p>
+											<p className="font-medium">
+												{listing.condition}
+											</p>
+										</div>
+										<div>
+											<p className="text-sm text-base-content/70">
+												VIN:
+											</p>
+											<p className="font-medium">
+												{listing.vin}
+											</p>
+										</div>
 									</div>
+									<div className="divider"></div>
+									<h2 className="text-xl font-semibold mb-4">
+										Description
+									</h2>
+									<p className="whitespace-pre-line text-base-content/80">
+										{listing.description}
+									</p>
 								</div>
 							</div>
 						</div>
