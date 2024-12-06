@@ -24,3 +24,5 @@ export const CONDITIONS = [
       currency: 'PLN'
     }).format(amount);
   };
+
+  export const LISTING_EXPIRATION_TIME = 30 * 24 * 60 * 60 * 1000;

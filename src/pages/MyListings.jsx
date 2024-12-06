@@ -2,17 +2,23 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { supabase } from "../lib/supabase";
 import MainLayout from "../layouts/MainLayout";
-import { Car, Plus, Pencil, Trash2, AlertCircle } from "lucide-react";
+import {
+	Car,
+	Plus,
+	Pencil,
+	Trash2,
+	AlertCircle,
+	RefreshCw,
+} from "lucide-react";
+import ExpirationStatus from "../components/listing-cleanup/ExpirationStatus";
+import { republishListing } from "../lib/listing-cleanup";
 
 const MyListings = () => {
 	const [listings, setListings] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 	const [deleteLoading, setDeleteLoading] = useState(null);
-
-	useEffect(() => {
-		fetchListings();
-	}, []);
+	const [republishLoading, setRepublishLoading] = useState(null);
 
 	const fetchListings = async () => {
 		try {
@@ -45,6 +51,10 @@ const MyListings = () => {
 		}
 	};
 
+	useEffect(() => {
+		fetchListings();
+	}, []);
+
 	const handleDelete = async (listingId) => {
 		if (!window.confirm("Are you sure you want to delete this listing?"))
 			return;
@@ -53,7 +63,6 @@ const MyListings = () => {
 			setDeleteLoading(listingId);
 			setError("");
 
-			// Delete the listing (this will trigger cascade delete for car_images and storage)
 			const { error: deleteError } = await supabase
 				.from("car_listings")
 				.delete()
@@ -61,7 +70,6 @@ const MyListings = () => {
 
 			if (deleteError) throw deleteError;
 
-			// Update local state
 			setListings((prev) =>
 				prev.filter((listing) => listing.id !== listingId)
 			);
@@ -70,6 +78,24 @@ const MyListings = () => {
 			setError("Failed to delete listing. Please try again.");
 		} finally {
 			setDeleteLoading(null);
+		}
+	};
+
+	const handleRepublish = async (listingId) => {
+		try {
+			setRepublishLoading(listingId);
+			const { success, error } = await republishListing(listingId);
+
+			if (success) {
+				await fetchListings();
+			} else {
+				throw error;
+			}
+		} catch (err) {
+			console.error("Error republishing listing:", err);
+			setError("Failed to republish listing. Please try again.");
+		} finally {
+			setRepublishLoading(null);
 		}
 	};
 
@@ -196,6 +222,36 @@ const MyListings = () => {
 												{listing.model}
 											</span>
 										</div>
+										<div className="mt-4">
+											<ExpirationStatus
+												createdAt={listing.created_at}
+											/>
+										</div>
+										{listing.status === "expired" && (
+											<button
+												onClick={() =>
+													handleRepublish(listing.id)
+												}
+												disabled={
+													republishLoading ===
+													listing.id
+												}
+												className="btn btn-primary mt-4"
+											>
+												{republishLoading ===
+												listing.id ? (
+													<>
+														<RefreshCw className="w-4 h-4 animate-spin mr-2" />
+														Republishing...
+													</>
+												) : (
+													<>
+														<RefreshCw className="w-4 h-4 mr-2" />
+														Republish Listing
+													</>
+												)}
+											</button>
+										)}
 										<div className="card-actions justify-end mt-4">
 											<Link
 												to={`/listings/${listing.id}`}

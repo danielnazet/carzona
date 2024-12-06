@@ -40,7 +40,7 @@ const CarSearch = () => {
 		<section className="py-16 px-4 sm:px-8">
 			<div className="max-w-7xl mx-auto">
 				<div className="text-center mb-10">
-					<h2 className="text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+					<h2 className="leading-normal text-4xl font-bold mb-3 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
 						Odkryj idealne auto dla siebie
 					</h2>
 					<p className="text-base-content/70 text-lg">

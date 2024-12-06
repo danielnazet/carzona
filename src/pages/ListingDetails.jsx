@@ -22,6 +22,7 @@ const ListingDetails = () => {
 	const [loading, setLoading] = useState(true);
 	const [error, setError] = useState("");
 	const [currentImageIndex, setCurrentImageIndex] = useState(0);
+	const [isOwner, setIsOwner] = useState(false);
 
 	useEffect(() => {
 		fetchListingDetails();
@@ -29,6 +30,10 @@ const ListingDetails = () => {
 
 	const fetchListingDetails = async () => {
 		try {
+			const {
+				data: { user },
+			} = await supabase.auth.getUser();
+
 			const { data: listingData, error: listingError } = await supabase
 				.from("car_listings")
 				.select(
@@ -45,6 +50,9 @@ const ListingDetails = () => {
 
 			if (listingError) throw listingError;
 			setListing(listingData);
+
+			// Check if the current user is the owner
+			setIsOwner(user && listingData.user_id === user.id);
 
 			if (listingData?.user_id) {
 				const { data: sellerData, error: sellerError } = await supabase
@@ -183,14 +191,18 @@ const ListingDetails = () => {
 							{/* Vehicle Details */}
 							<div className="card bg-base-100 shadow-xl">
 								<div className="card-body">
-									<h1 className="text-3xl font-bold mb-2">
-										{listing.title}
-									</h1>
-									<p className="text-3xl text-primary font-bold mb-6">
-										{formatPrice(listing.price)}
-									</p>
+									<div className="flex justify-between items-start">
+										<div>
+											<h1 className="text-3xl font-bold mb-2">
+												{listing.title}
+											</h1>
+											<p className="text-3xl text-primary font-bold">
+												{formatPrice(listing.price)}
+											</p>
+										</div>
+									</div>
 
-									<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+									<div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 mt-6">
 										<div className="flex items-center gap-2">
 											<Calendar className="w-5 h-5 text-base-content/70" />
 											<span>{listing.year}</span>
@@ -211,9 +223,19 @@ const ListingDetails = () => {
 										</div>
 										<div className="flex items-center gap-2">
 											<Zap className="w-5 h-5 text-base-content/70" />
-											<span>{listing.horsepower} KM</span>
+											<span>{listing.horsepower} HP</span>
 										</div>
 									</div>
+
+									<div className="divider"></div>
+
+									<h2 className="text-xl font-semibold mb-4">
+										Description
+									</h2>
+									<p className="whitespace-pre-line text-base-content/80">
+										{listing.description}
+									</p>
+
 									<div className="divider"></div>
 
 									<h2 className="text-xl font-semibold mb-4">
@@ -268,30 +290,7 @@ const ListingDetails = () => {
 												{listing.location}
 											</p>
 										</div>
-										<div>
-											<p className="text-sm text-base-content/70">
-												Condition:
-											</p>
-											<p className="font-medium">
-												{listing.condition}
-											</p>
-										</div>
-										<div>
-											<p className="text-sm text-base-content/70">
-												VIN:
-											</p>
-											<p className="font-medium">
-												{listing.vin}
-											</p>
-										</div>
 									</div>
-									<div className="divider"></div>
-									<h2 className="text-xl font-semibold mb-4">
-										Description
-									</h2>
-									<p className="whitespace-pre-line text-base-content/80">
-										{listing.description}
-									</p>
 								</div>
 							</div>
 						</div>

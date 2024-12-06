@@ -25,10 +25,6 @@ const Browse = () => {
 		condition: searchParams.get("condition") || "",
 	});
 
-	useEffect(() => {
-		fetchListings();
-	}, [filters]);
-
 	const fetchListings = async () => {
 		try {
 			setLoading(true);
@@ -43,7 +39,7 @@ const Browse = () => {
           )
         `
 				)
-				.eq("status", "active")
+				.eq("status", "active") // Only fetch active listings
 				.order("created_at", { ascending: false });
 
 			// Apply filters
@@ -79,6 +75,10 @@ const Browse = () => {
 			setLoading(false);
 		}
 	};
+
+	useEffect(() => {
+		fetchListings();
+	}, [filters]);
 
 	const handleFilterChange = (newFilters) => {
 		setFilters(newFilters);
