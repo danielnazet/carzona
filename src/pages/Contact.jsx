@@ -41,7 +41,7 @@ const Contact = () => {
 	return (
 		<div>
 			<Navbar />
-			<footer className="pt-20 bg-neutral text-white min-h-screen flex items-center justify-center py-10">
+			<footer className="pt-15 bg-neutral text-white min-h-screen flex items-center justify-center py-10">
 				<div className="container mx-auto px-6 text-center">
 					<h2 className="text-2xl font-bold mb-4">Get in Touch!</h2>
 					<p className="mb-6 text-gray-200">

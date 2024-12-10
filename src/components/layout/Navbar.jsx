@@ -65,15 +65,13 @@ const Navbar = () => {
 							to="/create-listing"
 							className="btn btn-primary btn-sm"
 						>
-							<Plus className="w-4 h-4 mr-1 hidden" /> + Auto
+							<Plus className="w-4 h-4 mr-1" /> Auto
 						</Link>
 					) : (
 						<Link
 							to="/login"
 							className="hover:text-primary transition-colors"
-						>
-							+ Auto
-						</Link>
+						></Link>
 					)}
 					<div className="hidden lg:flex items-center gap-6 text-sm font-medium text-base-content/70">
 						<Link
