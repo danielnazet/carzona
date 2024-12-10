@@ -11,6 +11,7 @@ import ListingSuccess from "./pages/ListingSuccess";
 import MyListings from "./pages/MyListings";
 import ListingDetails from "./pages/ListingDetails";
 import AboutUs from "./pages/AboutUs";
+import Contact from "./pages/Contact";
 
 function App() {
 	useEffect(() => {
@@ -32,6 +33,7 @@ function App() {
 				<Route path="/my-listings" element={<MyListings />} />
 				<Route path="/listings/:id" element={<ListingDetails />} />
 				<Route path="/about-us" element={<AboutUs />} />
+				<Route path="/contact" element={<Contact />} />
 			</Routes>
 		</Router>
 	);

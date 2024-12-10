@@ -7,17 +7,17 @@ const Footer = () => {
 			<div>
 				<div className="flex items-center gap-2">
 					<Car className="w-8 h-8" />
-					<p className="font-bold text-xl">Carzona</p>
+					<p className="font-bold text-xl">Carzone</p>
 				</div>
 				<p>Zapewniamy niezawodny rynek samochodowy od 2024 roku</p>
 			</div>
 
 			<div>
 				<span className="footer-title">Services</span>
-				<Link to="/buy" className="link link-hover">
+				<Link to="/browse" className="link link-hover">
 					Buy a Car
 				</Link>
-				<Link to="/sell" className="link link-hover">
+				<Link to="/browse" className="link link-hover">
 					Sell a Car
 				</Link>
 				<Link to="/finance" className="link link-hover">
