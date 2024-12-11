@@ -14,9 +14,9 @@ const EditSteps = ({ currentStep }) => {
 				<div className="flex justify-center mb-4">
 					<Car className="h-12 w-12 text-primary" />
 				</div>
-				<h1 className="text-3xl font-bold">Edit Your Listing</h1>
+				<h1 className="text-3xl font-bold">Edytuj swoje ogłoszenie</h1>
 				<p className="mt-2 text-base-content/70">
-					Update the details of your car listing
+					Zaktualizuj szczegóły swojego ogłoszenia samochodowego
 				</p>
 			</div>
 

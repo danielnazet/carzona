@@ -7,10 +7,12 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 		<div className="space-y-8">
 			{/* Vehicle Details Section */}
 			<div>
-				<h3 className="text-lg font-semibold mb-4">Vehicle Details</h3>
+				<h3 className="text-lg font-semibold mb-4">
+					Szczegoly samochodu :
+				</h3>
 				<div className="grid grid-cols-2 gap-4">
 					<div>
-						<p className="text-sm text-base-content/70">Make</p>
+						<p className="text-sm text-base-content/70">Marka</p>
 						<p className="font-medium">{vehicleDetails.make}</p>
 					</div>
 					<div>
@@ -18,18 +20,18 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 						<p className="font-medium">{vehicleDetails.model}</p>
 					</div>
 					<div>
-						<p className="text-sm text-base-content/70">Year</p>
+						<p className="text-sm text-base-content/70">Rok</p>
 						<p className="font-medium">{vehicleDetails.year}</p>
 					</div>
 					<div>
-						<p className="text-sm text-base-content/70">Mileage</p>
+						<p className="text-sm text-base-content/70">Przebieg</p>
 						<p className="font-medium">
-							{vehicleDetails.mileage} miles
+							{vehicleDetails.kilometers}
 						</p>
 					</div>
 					<div>
 						<p className="text-sm text-base-content/70">
-							Transmission
+							Skrzynia biegow
 						</p>
 						<p className="font-medium capitalize">
 							{vehicleDetails.transmission}
@@ -37,7 +39,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 					</div>
 					<div>
 						<p className="text-sm text-base-content/70">
-							Fuel Type
+							Rodzaj Paliwa
 						</p>
 						<p className="font-medium capitalize">
 							{vehicleDetails.fuelType}
@@ -45,14 +47,14 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 					</div>
 					<div>
 						<p className="text-sm text-base-content/70">
-							Body Type
+							Typ nadwozia
 						</p>
 						<p className="font-medium capitalize">
 							{vehicleDetails.bodyType}
 						</p>
 					</div>
 					<div>
-						<p className="text-sm text-base-content/70">Color</p>
+						<p className="text-sm text-base-content/70">Kolor</p>
 						<p className="font-medium">{vehicleDetails.color}</p>
 					</div>
 				</div>
@@ -60,32 +62,31 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 
 			{/* Listing Details Section */}
 			<div>
-				<h3 className="text-lg font-semibold mb-4">Listing Details</h3>
+				<h3 className="text-lg font-semibold mb-4">
+					Szczegoly ogloszenia
+				</h3>
 				<div className="space-y-4">
 					<div>
-						<p className="text-sm text-base-content/70">Title</p>
+						<p className="text-sm text-base-content/70">Tytul</p>
 						<p className="font-medium">{listingDetails.title}</p>
 					</div>
 					<div>
-						<p className="text-sm text-base-content/70">
-							Description
-						</p>
+						<p className="text-sm text-base-content/70">Opis</p>
 						<p className="font-medium">
 							{listingDetails.description}
 						</p>
 					</div>
 					<div className="grid grid-cols-2 gap-4">
 						<div>
-							<p className="text-sm text-base-content/70">
-								Price
-							</p>
+							<p className="text-sm text-base-content/70">Cena</p>
 							<p className="font-medium">
-								${Number(listingDetails.price).toLocaleString()}
+								{Number(listingDetails.price).toLocaleString()}{" "}
+								PLN
 							</p>
 						</div>
 						<div>
 							<p className="text-sm text-base-content/70">
-								Listing Type
+								Typ ogloszenia
 							</p>
 							<p className="font-medium capitalize">
 								{listingDetails.listingType}
@@ -93,7 +94,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 						</div>
 						<div>
 							<p className="text-sm text-base-content/70">
-								Location
+								Lokalizacja
 							</p>
 							<p className="font-medium">
 								{listingDetails.location}
@@ -101,7 +102,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 						</div>
 						<div>
 							<p className="text-sm text-base-content/70">
-								Condition
+								Stan auta
 							</p>
 							<p className="font-medium capitalize">
 								{listingDetails.condition}
@@ -113,7 +114,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 
 			{/* Photos Preview */}
 			<div>
-				<h3 className="text-lg font-semibold mb-4">Photos</h3>
+				<h3 className="text-lg font-semibold mb-4">Zdjecia</h3>
 				<div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 					{media.map((image, index) => (
 						<img
@@ -133,7 +134,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 					onClick={onBack}
 					className="btn btn-ghost"
 				>
-					Back
+					Powrot
 				</button>
 				<button
 					type="button"
@@ -141,7 +142,7 @@ const ReviewListing = ({ formData, onSubmit, onBack }) => {
 					className="btn btn-primary"
 				>
 					<Check className="w-4 h-4 mr-2" />
-					Publish Listing
+					Opublikuj
 				</button>
 			</div>
 		</div>

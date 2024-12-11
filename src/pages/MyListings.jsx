@@ -208,10 +208,10 @@ const MyListings = () => {
 											{listing.title}
 										</h2>
 										<p className="text-2xl font-semibold text-primary">
-											$
 											{Number(
 												listing.price
-											).toLocaleString()}
+											).toLocaleString()}{" "}
+											PLN
 										</p>
 										<div className="flex flex-wrap gap-2 mt-2">
 											<span className="badge badge-outline">

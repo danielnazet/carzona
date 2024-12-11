@@ -1,11 +1,10 @@
 export const CONDITIONS = [
-    { value: 'new', label: 'New' },
-    { value: 'like-new', label: 'Like New' },
-    { value: 'excellent', label: 'Excellent' },
-    { value: 'good', label: 'Good' },
-    { value: 'fair', label: 'Fair' },
-    { value: 'bad', label: 'Bad' },
-    { value: 'damaged', label: 'Damaged' }
+    { value: 'nowy', label: 'Nowy' },
+    { value: 'doskonaly', label: 'Doskonały' },
+    { value: 'dobry', label: 'Dobry' },
+    { value: 'sredni', label: 'Przecietny' },
+    { value: 'slaby', label: 'Slaby' },
+    { value: 'uszkodzony', label: 'Uszkodzony' }
   ] as const;
   
   export const MAX_PHOTOS = 10;

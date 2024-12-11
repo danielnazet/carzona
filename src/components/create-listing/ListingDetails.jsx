@@ -35,7 +35,7 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 		<form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
 			<div className="form-control">
 				<label className="label">
-					<span className="label-text">Listing Title</span>
+					<span className="label-text">Tytul</span>
 				</label>
 				<input
 					type="text"
@@ -54,7 +54,7 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 
 			<div className="form-control">
 				<label className="label">
-					<span className="label-text">Description</span>
+					<span className="label-text">Opis</span>
 				</label>
 				<textarea
 					{...register("description")}
@@ -73,7 +73,7 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Price (PLN)</span>
+						<span className="label-text">Cena (PLN)</span>
 					</label>
 					<input
 						type="number"
@@ -92,13 +92,13 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Horsepower</span>
+						<span className="label-text">Moc silnika</span>
 					</label>
 					<input
 						type="number"
 						{...register("horsepower")}
 						className="input input-bordered"
-						placeholder="e.g., 150"
+						placeholder="np. 150"
 					/>
 					{errors.horsepower && (
 						<label className="label">
@@ -111,15 +111,15 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Listing Type</span>
+						<span className="label-text">Typ ogloszenia</span>
 					</label>
 					<select
 						{...register("listingType")}
 						className="select select-bordered"
 					>
-						<option value="">Select Type</option>
-						<option value="sale">For Sale</option>
-						<option value="auction">Auction</option>
+						<option value="">Wybierz ogloszenie</option>
+						<option value="sale">Sprzedaz</option>
+						<option value="auction">Aukcja</option>
 					</select>
 					{errors.listingType && (
 						<label className="label">
@@ -132,7 +132,7 @@ const ListingDetails = ({ initialData = {}, onNext, onBack }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Location</span>
+						<span className="label-text">Lokalizacja</span>
 					</label>
 					<input
 						type="text"

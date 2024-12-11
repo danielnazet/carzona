@@ -34,7 +34,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 			<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Make</span>
+						<span className="label-text">Marka</span>
 					</label>
 					<input
 						type="text"
@@ -72,13 +72,13 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Year</span>
+						<span className="label-text">Rok</span>
 					</label>
 					<select
 						{...register("year")}
 						className="select select-bordered"
 					>
-						<option value="">Select Year</option>
+						<option value="">Wybierz rok</option>
 						{Array.from({ length: 30 }, (_, i) => 2024 - i).map(
 							(year) => (
 								<option key={year} value={year}>
@@ -98,7 +98,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Kilometers</span>
+						<span className="label-text">Przebieg</span>
 					</label>
 					<input
 						type="number"
@@ -117,15 +117,15 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Transmission</span>
+						<span className="label-text">Skrzynia biegów</span>
 					</label>
 					<select
 						{...register("transmission")}
 						className="select select-bordered"
 					>
-						<option value="">Select Transmission</option>
-						<option value="automatic">Automatic</option>
-						<option value="manual">Manual</option>
+						<option value="">Zaznacz skrzynie biegów</option>
+						<option value="automatic">Automatyczna</option>
+						<option value="manual">Manualna</option>
 						<option value="cvt">CVT</option>
 					</select>
 					{errors.transmission && (
@@ -139,16 +139,16 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Fuel Type</span>
+						<span className="label-text">Rodzaj paliwa</span>
 					</label>
 					<select
 						{...register("fuelType")}
 						className="select select-bordered"
 					>
-						<option value="">Select Fuel Type</option>
-						<option value="gasoline">Gasoline</option>
+						<option value="">Wybierz rodzaj paliwa</option>
+						<option value="gasoline">Benzyna</option>
 						<option value="diesel">Diesel</option>
-						<option value="electric">Electric</option>
+						<option value="electric">Elektryczny</option>
 						<option value="hybrid">Hybrid</option>
 						<option value="lpg">LPG</option>
 					</select>
@@ -163,20 +163,21 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Body Type</span>
+						<span className="label-text">Typ nadwozia</span>
 					</label>
 					<select
 						{...register("bodyType")}
 						className="select select-bordered"
 					>
-						<option value="">Select Body Type</option>
+						<option value="">Wybierz typ nadwozia</option>
 						<option value="sedan">Sedan</option>
 						<option value="suv">SUV</option>
 						<option value="coupe">Coupe</option>
-						<option value="truck">Truck</option>
+						<option value="bus">Bus</option>
 						<option value="van">Van</option>
 						<option value="hatchback">Hatchback</option>
-						<option value="wagon">Combi</option>
+						<option value="wagon">Kombi</option>
+						<option value="pickup">Pickup</option>
 					</select>
 					{errors.bodyType && (
 						<label className="label">
@@ -189,7 +190,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Color</span>
+						<span className="label-text">Kolor</span>
 					</label>
 					<input
 						type="text"

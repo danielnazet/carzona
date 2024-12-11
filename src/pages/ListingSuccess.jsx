@@ -11,22 +11,23 @@ const ListingSuccess = () => {
 						<div className="card-body items-center">
 							<CheckCircle2 className="w-16 h-16 text-success mb-4" />
 							<h2 className="card-title text-2xl mb-2">
-								Listing Created Successfully!
+								Ogłoszenie zostało pomyślnie utworzone!
 							</h2>
 							<p className="text-base-content/70 mb-6">
-								Your car listing has been published and is now
-								visible to potential buyers.
+								Twoje ogłoszenie samochodu zostało opublikowane
+								i jest teraz widoczne dla potencjalnych
+								nabywców.
 							</p>
 							<div className="space-y-3 w-full">
 								<Link
 									to="/my-listings"
 									className="btn btn-primary w-full"
 								>
-									View My Listings
+									Zobacz Swoje ogłoszenia
 									<ArrowRight className="w-4 h-4 ml-2" />
 								</Link>
 								<Link to="/" className="btn btn-ghost w-full">
-									Return to Home
+									Wróć do strony głównej
 								</Link>
 							</div>
 						</div>
