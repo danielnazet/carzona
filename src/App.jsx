@@ -12,6 +12,7 @@ import MyListings from "./pages/MyListings";
 import ListingDetails from "./pages/ListingDetails";
 import AboutUs from "./pages/AboutUs";
 import Contact from "./pages/Contact";
+import EditListing from "./pages/EditListing";
 
 function App() {
 	useEffect(() => {
@@ -29,6 +30,7 @@ function App() {
 				<Route path="/welcome" element={<Welcome />} />
 				<Route path="/browse" element={<Browse />} />
 				<Route path="/create-listing" element={<CreateListing />} />
+				<Route path="/edit-listing/:id" element={<EditListing />} />
 				<Route path="/listing-success" element={<ListingSuccess />} />
 				<Route path="/my-listings" element={<MyListings />} />
 				<Route path="/listings/:id" element={<ListingDetails />} />

@@ -55,7 +55,7 @@ const Navbar = () => {
 					>
 						<Car className="w-6 h-6 text-primary/80" />
 						<span className="bg-gradient-to-r from-primary/90 to-primary bg-clip-text text-transparent">
-							Carzona
+							Carzone
 						</span>
 					</Link>
 

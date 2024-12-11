@@ -140,7 +140,7 @@ const ListingDetails = () => {
 											"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&q=80"
 										}
 										alt={listing.title}
-										className="w-full h-full object-cover"
+										className=" object-cover"
 									/>
 									{images.length > 1 && (
 										<div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">

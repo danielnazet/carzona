@@ -119,14 +119,16 @@ const MyListings = () => {
 				<div className="max-w-6xl mx-auto">
 					<div className="flex justify-between items-center mb-8">
 						<div>
-							<h1 className="text-3xl font-bold">My Listings</h1>
+							<h1 className="text-3xl font-bold">
+								Moje ogłoszenia
+							</h1>
 							<p className="text-base-content/70 mt-1">
-								Manage your car listings
+								Zarządzaj ogłoszeniami
 							</p>
 						</div>
 						<Link to="/create-listing" className="btn btn-primary">
 							<Plus className="w-4 h-4 mr-2" />
-							New Listing
+							Dodaj ogłoszenie
 						</Link>
 					</div>
 
@@ -142,18 +144,18 @@ const MyListings = () => {
 							<div className="card-body items-center text-center py-12">
 								<Car className="w-16 h-16 text-base-content/20 mb-4" />
 								<h3 className="text-xl font-semibold mb-2">
-									No Listings Yet
+									Brak ogłoszeń
 								</h3>
 								<p className="text-base-content/70 mb-6">
-									Create your first car listing to start
-									selling
+									Dodaj pierwsze ogłoszenie, aby zacząć
+									sprzedawać
 								</p>
 								<Link
 									to="/create-listing"
 									className="btn btn-primary"
 								>
 									<Plus className="w-4 h-4 mr-2" />
-									Create Listing
+									Dodaj ogłoszenie
 								</Link>
 							</div>
 						</div>
@@ -242,12 +244,12 @@ const MyListings = () => {
 												listing.id ? (
 													<>
 														<RefreshCw className="w-4 h-4 animate-spin mr-2" />
-														Republishing...
+														Ponowne publikowanie...
 													</>
 												) : (
 													<>
 														<RefreshCw className="w-4 h-4 mr-2" />
-														Republish Listing
+														Opublikuj ponownie
 													</>
 												)}
 											</button>
@@ -257,7 +259,7 @@ const MyListings = () => {
 												to={`/listings/${listing.id}`}
 												className="btn btn-primary btn-block"
 											>
-												View Details
+												Zobacz szczegóły
 											</Link>
 										</div>
 									</div>

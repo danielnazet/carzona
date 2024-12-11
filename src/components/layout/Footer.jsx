@@ -29,12 +29,12 @@ const Footer = () => {
 			</div>
 
 			<div>
-				<span className="footer-title">Company</span>
+				<span className="footer-title">Firma</span>
 				<Link to="/about-us" className="link link-hover">
-					About us
+					O nas
 				</Link>
 				<Link to="/contact" className="link link-hover">
-					Contact
+					Kontakt
 				</Link>
 				<Link to="/careers" className="link link-hover">
 					Careers
