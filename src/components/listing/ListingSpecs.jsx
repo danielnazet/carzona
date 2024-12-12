@@ -68,14 +68,7 @@ const ListingSpecs = ({ listing }) => {
 							{listing.body_type}
 						</p>
 					</div>
-					<div>
-						<p className="text-sm text-base-content/70">
-							Typ paliwa
-						</p>
-						<p className="font-medium capitalize">
-							{listing.fuel_type}
-						</p>
-					</div>
+
 					<div>
 						<p className="text-sm text-base-content/70">
 							Stan techniczny

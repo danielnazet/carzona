@@ -124,7 +124,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 						className="select select-bordered"
 					>
 						<option value="">Zaznacz skrzynie biegów</option>
-						<option value="automatic">Automatyczna</option>
+						<option value="automatyczna">Automatyczna</option>
 						<option value="manual">Manualna</option>
 						<option value="cvt">CVT</option>
 					</select>
@@ -146,7 +146,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 						className="select select-bordered"
 					>
 						<option value="">Wybierz rodzaj paliwa</option>
-						<option value="gasoline">Benzyna</option>
+						<option value="benzyna">Benzyna</option>
 						<option value="diesel">Diesel</option>
 						<option value="electric">Elektryczny</option>
 						<option value="hybrid">Hybrid</option>
@@ -176,7 +176,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 						<option value="bus">Bus</option>
 						<option value="van">Van</option>
 						<option value="hatchback">Hatchback</option>
-						<option value="wagon">Kombi</option>
+						<option value="kombi">Kombi</option>
 						<option value="pickup">Pickup</option>
 					</select>
 					{errors.bodyType && (
@@ -232,7 +232,7 @@ const VehicleDetails = ({ initialData = {}, onNext }) => {
 
 			<div className="flex justify-end">
 				<button type="submit" className="btn btn-primary">
-					Next Step
+					Dalej
 				</button>
 			</div>
 		</form>

@@ -106,7 +106,7 @@ const MediaUpload = ({ initialData = [], onNext, onBack }) => {
 						}`}
 					>
 						<Image className="w-4 h-4 mr-2" />
-						Choose Files
+						Wybierz plik
 					</label>
 				</div>
 			</div>
@@ -137,7 +137,7 @@ const MediaUpload = ({ initialData = [], onNext, onBack }) => {
 					onClick={onBack}
 					className="btn btn-ghost"
 				>
-					Back
+					Powrot
 				</button>
 				<button
 					type="button"
@@ -145,7 +145,7 @@ const MediaUpload = ({ initialData = [], onNext, onBack }) => {
 					className="btn btn-primary"
 					disabled={images.length === 0}
 				>
-					Next Step
+					Dalej
 				</button>
 			</div>
 		</div>
