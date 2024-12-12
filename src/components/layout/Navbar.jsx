@@ -58,10 +58,10 @@ const Navbar = () => {
 						) : user ? (
 							<UserMenu onSignOut={handleSignOut} />
 						) : (
-							<div className="flex items-center gap-2">
+							<div className="hidden sm:flex items-center gap-2">
 								<Link
 									to="/login"
-									className="btn btn-ghost btn-sm hidden sm:inline-flex"
+									className="btn btn-ghost btn-sm"
 								>
 									Sign in
 								</Link>
@@ -69,10 +69,8 @@ const Navbar = () => {
 									to="/signup"
 									className="btn btn-sm bg-primary/10 hover:bg-primary/20 text-primary border-0"
 								>
-									<User className="w-4 h-4 sm:mr-2" />
-									<span className="hidden sm:inline">
-										Register
-									</span>
+									<User className="w-4 h-4 mr-2" />
+									Register
 								</Link>
 							</div>
 						)}
@@ -96,6 +94,7 @@ const Navbar = () => {
 				isOpen={isMenuOpen}
 				onClose={() => setIsMenuOpen(false)}
 				isAuthenticated={!!user}
+				user={user}
 			/>
 		</nav>
 	);
