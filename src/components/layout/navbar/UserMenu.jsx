@@ -19,7 +19,7 @@ const UserMenu = ({ onSignOut }) => {
 						className="flex items-center gap-2 py-3"
 					>
 						<FileText className="w-4 h-4" />
-						My Listings
+						Moje ogloszenia
 					</Link>
 				</li>
 				<li>
@@ -28,7 +28,7 @@ const UserMenu = ({ onSignOut }) => {
 						className="flex items-center gap-2 py-3"
 					>
 						<Settings className="w-4 h-4" />
-						Settings
+						Ustawienia
 					</Link>
 				</li>
 				<li>
@@ -37,7 +37,7 @@ const UserMenu = ({ onSignOut }) => {
 						className="flex items-center gap-2 py-3 text-error"
 					>
 						<LogOut className="w-4 h-4" />
-						Sign out
+						Wyloguj
 					</button>
 				</li>
 			</ul>

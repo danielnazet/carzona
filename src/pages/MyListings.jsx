@@ -128,7 +128,7 @@ const MyListings = () => {
 						</div>
 						<Link to="/create-listing" className="btn btn-primary">
 							<Plus className="w-4 h-4 mr-2" />
-							Dodaj ogłoszenie
+							Dodaj
 						</Link>
 					</div>
 

@@ -14,16 +14,16 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 					onClick={onClose}
 				>
 					<Search className="w-5 h-5" />
-					Browse Cars
+					Przegladaj Auta
 				</Link>
-				<Link
-					to="/auctions"
-					className="flex items-center gap-2 py-2 text-base-content/70"
-					onClick={onClose}
-				>
-					<FileText className="w-5 h-5" />
-					Auctions
-				</Link>
+				{/* <Link */}
+				{/* to="/auctions" */}
+				{/* className="flex items-center gap-2 py-2 text-base-content/70" */}
+				{/* onClick={onClose} */}
+				{/* > */}
+				{/* <FileText className="w-5 h-5" /> */}
+				{/* Auctions */}
+				{/* </Link> */}
 
 				{/* Saved Cars */}
 				<Link
@@ -32,7 +32,7 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 					onClick={onClose}
 				>
 					<Heart className="w-5 h-5" />
-					Saved Cars
+					Ulubione
 				</Link>
 
 				{/* Auth Section */}
@@ -43,7 +43,7 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 						onClick={onClose}
 					>
 						<Plus className="w-5 h-5" />
-						Sell Your Car
+						Sprzedaj
 					</Link>
 				) : (
 					<div className="pt-2 border-t border-base-200 space-y-3">
@@ -53,7 +53,7 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 							onClick={onClose}
 						>
 							<LogIn className="w-5 h-5" />
-							Sign In
+							Zaloguj
 						</Link>
 						<Link
 							to="/signup"
@@ -61,7 +61,7 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 							onClick={onClose}
 						>
 							<UserPlus className="w-5 h-5" />
-							Create Account
+							Stworz konto
 						</Link>
 					</div>
 				)}

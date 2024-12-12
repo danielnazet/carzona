@@ -7,6 +7,7 @@ import Logo from "./navbar/Logo";
 import DesktopNav from "./navbar/DesktopNav";
 import UserMenu from "./navbar/UserMenu";
 import MobileMenu from "./navbar/MobileMenu";
+import SearchBar from "./navbar/Searchbar";
 
 const Navbar = () => {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -25,9 +26,14 @@ const Navbar = () => {
 	return (
 		<nav className="bg-white border-b border-base-200 sticky top-0 z-50">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="flex h-16 items-center justify-between">
-					<Logo />
-					<DesktopNav />
+				<div className="flex h-16 items-center justify-between gap-4">
+					<div className="flex items-center gap-4 lg:gap-8">
+						<Logo />
+						<DesktopNav />
+					</div>
+
+					{/* Search Bar */}
+					<SearchBar />
 
 					{/* Right Section */}
 					<div className="flex items-center gap-2 sm:gap-4">
@@ -38,7 +44,9 @@ const Navbar = () => {
 							title="Saved Cars"
 						>
 							<Heart className="w-5 h-5" />
-							<span className="hidden lg:inline ml-2">Saved</span>
+							<span className="hidden lg:inline ml-2">
+								Ulubione
+							</span>
 						</Link>
 
 						{/* Sell Button - Hidden on mobile */}
@@ -48,7 +56,7 @@ const Navbar = () => {
 								className="btn btn-primary btn-sm hidden md:flex"
 							>
 								<Plus className="w-4 h-4 mr-1" />
-								Sell Car
+								Sprzedaj
 							</Link>
 						)}
 
@@ -63,14 +71,14 @@ const Navbar = () => {
 									to="/login"
 									className="btn btn-ghost btn-sm"
 								>
-									Sign in
+									Zaloguj
 								</Link>
 								<Link
 									to="/signup"
 									className="btn btn-sm bg-primary/10 hover:bg-primary/20 text-primary border-0"
 								>
 									<User className="w-4 h-4 mr-2" />
-									Register
+									Rejestracja
 								</Link>
 							</div>
 						)}
