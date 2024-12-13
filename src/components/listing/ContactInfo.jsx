@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Phone, Mail, User, Lock } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import ChatButton from "../chat/ChatButton";
 
-const ContactInfo = ({ seller }) => {
+const ContactInfo = ({ seller, listing }) => {
 	const { user, loading } = useAuth();
 	const [showPhone, setShowPhone] = useState(false);
 	const [showEmail, setShowEmail] = useState(false);
@@ -45,7 +46,7 @@ const ContactInfo = ({ seller }) => {
 
 					<div className="alert alert-info mb-4">
 						<Lock className="w-4 h-4" />
-						<span>Sign in to view contact information</span>
+						<span>Sign in to contact the seller</span>
 					</div>
 
 					<div className="space-y-3">
@@ -87,13 +88,16 @@ const ContactInfo = ({ seller }) => {
 				</div>
 
 				<div className="space-y-3">
+					<ChatButton listing={listing} sellerId={seller.id} />
+
 					<button
 						onClick={() => setShowPhone(!showPhone)}
-						className="btn btn-primary btn-block"
+						className="btn btn-outline btn-block"
 					>
 						<Phone className="w-4 h-4 mr-2" />
 						{showPhone ? seller.phone : "Show Phone Number"}
 					</button>
+
 					<button
 						onClick={() => setShowEmail(!showEmail)}
 						className="btn btn-outline btn-block"

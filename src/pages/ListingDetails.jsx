@@ -21,6 +21,9 @@ const ListingDetails = () => {
 
 	const fetchListingDetails = async () => {
 		try {
+			setLoading(true);
+			setError("");
+
 			const { data: listingData, error: listingError } = await supabase
 				.from("car_listings")
 				.select(
@@ -41,7 +44,7 @@ const ListingDetails = () => {
 			if (listingData?.user_id) {
 				const { data: sellerData, error: sellerError } = await supabase
 					.from("profiles")
-					.select("first_name, last_name, phone, email")
+					.select("id, first_name, last_name, phone, email")
 					.eq("id", listingData.user_id)
 					.single();
 
@@ -94,15 +97,13 @@ const ListingDetails = () => {
 					</Link>
 
 					<div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-						{/* Main Content */}
 						<div className="lg:col-span-2 space-y-6">
 							<ListingImages images={listing.car_images} />
 							<ListingSpecs listing={listing} />
 						</div>
 
-						{/* Sidebar */}
 						<div className="space-y-6">
-							<ContactInfo seller={seller} />
+							<ContactInfo seller={seller} listing={listing} />
 							<SafetyTips />
 						</div>
 					</div>

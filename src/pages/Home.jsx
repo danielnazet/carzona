@@ -30,7 +30,7 @@ const Home = () => {
 								to="/create-listing"
 								className="btn btn-secondary"
 							>
-								Sprzedaj Swój Samochód
+								Sprzedaj Samochód
 							</Link>
 						</div>
 					</div>

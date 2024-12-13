@@ -14,7 +14,7 @@ const MobileMenu = ({ isOpen, onClose, isAuthenticated, user }) => {
 					onClick={onClose}
 				>
 					<Search className="w-5 h-5" />
-					Przegladaj Auta
+					Szukaj
 				</Link>
 				{/* <Link */}
 				{/* to="/auctions" */}

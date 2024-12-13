@@ -7,16 +7,15 @@ import Register from "./pages/Register";
 import Welcome from "./pages/Welcome";
 import Browse from "./pages/Browse";
 import CreateListing from "./pages/CreateListing";
+import EditListing from "./pages/EditListing";
 import ListingSuccess from "./pages/ListingSuccess";
 import MyListings from "./pages/MyListings";
 import ListingDetails from "./pages/ListingDetails";
-import AboutUs from "./pages/AboutUs";
-import Contact from "./pages/Contact";
-import EditListing from "./pages/EditListing";
+import Messages from "./pages/Messages";
+import ChatRoom from "./pages/ChatRoom";
 
 function App() {
 	useEffect(() => {
-		// Start the cleanup interval when the app loads
 		const cleanup = startCleanupInterval();
 		return cleanup;
 	}, []);
@@ -34,8 +33,8 @@ function App() {
 				<Route path="/listing-success" element={<ListingSuccess />} />
 				<Route path="/my-listings" element={<MyListings />} />
 				<Route path="/listings/:id" element={<ListingDetails />} />
-				<Route path="/about-us" element={<AboutUs />} />
-				<Route path="/contact" element={<Contact />} />
+				<Route path="/messages" element={<Messages />} />
+				<Route path="/messages/:roomId" element={<ChatRoom />} />
 			</Routes>
 		</Router>
 	);
