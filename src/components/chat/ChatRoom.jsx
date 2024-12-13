@@ -19,6 +19,7 @@ const ChatRoom = () => {
 	const [room, setRoom] = useState(null);
 	const messagesEndRef = useRef(null);
 
+	// Load chat room and messages
 	useEffect(() => {
 		loadChatRoom();
 		const subscription = subscribeToMessages();
@@ -30,21 +31,33 @@ const ChatRoom = () => {
 	}, [messages]);
 
 	const loadChatRoom = async () => {
+		if (!user || !user.id) {
+			console.error("User not logged in or invalid");
+			return;
+		}
+
 		try {
 			setLoading(true);
 			setError(null);
 
-			const { data, error } = await fetchChatRoom(roomId, user.id);
-			if (error) throw error;
+			// Pobierz szczegóły pokoju
+			const { data: roomData, error: roomError } = await fetchChatRoom(
+				roomId,
+				user.id
+			);
+			if (roomError) throw roomError;
+			if (!roomData) throw new Error("Room not found");
 
-			setRoom(data);
+			setRoom(roomData);
 
-			// Fetch messages
-			const { data: messagesData } = await supabase
+			// Pobierz wiadomości
+			const { data: messagesData, error: messagesError } = await supabase
 				.from("chat_messages")
 				.select("*")
 				.eq("room_id", roomId)
 				.order("created_at", { ascending: true });
+
+			if (messagesError) throw messagesError;
 
 			setMessages(messagesData || []);
 		} catch (err) {
@@ -56,6 +69,34 @@ const ChatRoom = () => {
 		} finally {
 			setLoading(false);
 		}
+	};
+
+	const subscribeToMessages = () => {
+		const subscription = supabase
+			.channel(`public:chat_messages:room_id=eq.${roomId}`) // Popraw konfigurację kanału
+			.on(
+				"postgres_changes",
+				{
+					event: "INSERT",
+					schema: "public",
+					table: "chat_messages",
+					filter: `room_id=eq.${roomId}`,
+				},
+				(payload) => {
+					console.log("New message received:", payload.new);
+					setMessages((prevMessages) => [
+						...prevMessages,
+						payload.new,
+					]);
+				}
+			)
+			.subscribe();
+
+		return subscription;
+	};
+
+	const scrollToBottom = () => {
+		messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
 	};
 
 	const handleSendMessage = async (e) => {
@@ -74,88 +115,43 @@ const ChatRoom = () => {
 		}
 	};
 
+	// Find the other user in the chat room
+	const otherUser = room
+		? room.buyer_id === user.id
+			? room.seller
+			: room.buyer
+		: null;
+
 	return (
-		<div className="flex flex-col h-[calc(100vh-4rem)]">
-			{/* Header */}
-			<div className="bg-base-100 border-b border-base-200 p-4">
-				<div className="flex items-center gap-4">
-					<Link to="/messages" className="btn btn-ghost btn-sm">
-						<ArrowLeft className="w-4 h-4" />
-					</Link>
-					<div>
-						<h2 className="font-semibold">
-							{otherUser?.first_name} {otherUser?.last_name}
-						</h2>
-						{listing && (
-							<Link
-								to={`/listings/${listing.id}`}
-								className="text-sm text-base-content/70 hover:text-primary"
-							>
-								{listing.title}
-							</Link>
-						)}
-					</div>
-				</div>
-			</div>
-
-			{/* Messages */}
-			<div className="flex-1 overflow-y-auto p-4 space-y-4">
+		<div className="chat-room">
+			{room && (
+				<ChatHeader otherUser={otherUser} listing={room.listing} />
+			)}
+			<div className="chat-messages">
 				{messages.map((message) => (
-					<div
+					<ChatMessage
 						key={message.id}
-						className={`flex ${
-							message.sender_id === user.id
-								? "justify-end"
-								: "justify-start"
-						}`}
-					>
-						<div
-							className={`max-w-[70%] rounded-lg px-4 py-2 ${
-								message.sender_id === user.id
-									? "bg-primary text-primary-content"
-									: "bg-base-200"
-							}`}
-						>
-							<p>{message.content}</p>
-							<span className="text-xs opacity-70">
-								{new Date(
-									message.created_at
-								).toLocaleTimeString([], {
-									hour: "2-digit",
-									minute: "2-digit",
-								})}
-							</span>
-						</div>
-					</div>
-				))}
-				<div ref={messagesEndRef} />
-			</div>
-
-			{/* Message Input */}
-			<form
-				onSubmit={sendMessage}
-				className="p-4 bg-base-100 border-t border-base-200"
-			>
-				<div className="join w-full">
-					<input
-						type="text"
-						value={newMessage}
-						onChange={(e) => setNewMessage(e.target.value)}
-						placeholder="Type a message..."
-						className="input input-bordered join-item w-full"
+						message={message}
+						isOwnMessage={message.sender_id === user.id}
 					/>
-					<button
-						type="submit"
-						disabled={!newMessage.trim() || sending}
-						className="btn btn-primary join-item"
-					>
-						{sending ? (
-							<span className="loading loading-spinner loading-sm"></span>
-						) : (
-							<Send className="w-4 h-4" />
-						)}
-					</button>
-				</div>
+				))}
+				<div ref={messagesEndRef}></div>
+			</div>
+			<form onSubmit={handleSendMessage} className="chat-input">
+				<input
+					type="text"
+					placeholder="Type a message"
+					value={newMessage}
+					onChange={(e) => setNewMessage(e.target.value)}
+					className="input"
+				/>
+				<button
+					type="submit"
+					className="btn btn-primary"
+					disabled={!newMessage.trim() || sending}
+				>
+					<Send />
+				</button>
 			</form>
 		</div>
 	);

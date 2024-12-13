@@ -28,7 +28,7 @@ const Home = () => {
 						<div className="flex flex-col sm:flex-row gap-4 justify-center">
 							<Link
 								to="/create-listing"
-								className="btn btn-secondary"
+								className="btn btn-primary"
 							>
 								Sprzedaj Samochód
 							</Link>

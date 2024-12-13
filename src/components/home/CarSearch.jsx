@@ -80,9 +80,7 @@ const CarSearch = () => {
 								<button
 									type="button"
 									className={`btn ${
-										showFilters
-											? "btn-error"
-											: "btn-secondary"
+										showFilters ? "btn-error" : "btn-ghost"
 									} h-14 min-w-[140px]`}
 									onClick={() => setShowFilters(!showFilters)}
 								>
