@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { Send, ArrowLeft } from "lucide-react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Send } from "lucide-react";
 import { useAuth } from "../../hooks/useAuth";
 import { fetchChatRoom, sendMessage } from "../../lib/chat";
 import { supabase } from "../../lib/supabase";
@@ -9,7 +9,7 @@ import ChatHeader from "./ChatHeader";
 
 const ChatRoom = () => {
 	const { roomId } = useParams();
-	const { user } = useAuth();
+	const { user, loading: authLoading } = useAuth();
 	const navigate = useNavigate();
 	const [messages, setMessages] = useState([]);
 	const [newMessage, setNewMessage] = useState("");
@@ -19,38 +19,35 @@ const ChatRoom = () => {
 	const [room, setRoom] = useState(null);
 	const messagesEndRef = useRef(null);
 
-	// Load chat room and messages
 	useEffect(() => {
+		if (authLoading) return;
+		if (!user) {
+			navigate("/login");
+			return;
+		}
 		loadChatRoom();
-		const subscription = subscribeToMessages();
-		return () => subscription.unsubscribe();
-	}, [roomId]);
+	}, [user, authLoading, roomId]);
 
 	useEffect(() => {
-		scrollToBottom();
+		if (messages.length > 0) {
+			scrollToBottom();
+		}
 	}, [messages]);
 
 	const loadChatRoom = async () => {
-		if (!user || !user.id) {
-			console.error("User not logged in or invalid");
-			return;
-		}
-
 		try {
 			setLoading(true);
 			setError(null);
 
-			// Pobierz szczegóły pokoju
 			const { data: roomData, error: roomError } = await fetchChatRoom(
 				roomId,
 				user.id
 			);
+
 			if (roomError) throw roomError;
-			if (!roomData) throw new Error("Room not found");
 
 			setRoom(roomData);
 
-			// Pobierz wiadomości
 			const { data: messagesData, error: messagesError } = await supabase
 				.from("chat_messages")
 				.select("*")
@@ -69,30 +66,6 @@ const ChatRoom = () => {
 		} finally {
 			setLoading(false);
 		}
-	};
-
-	const subscribeToMessages = () => {
-		const subscription = supabase
-			.channel(`public:chat_messages:room_id=eq.${roomId}`) // Popraw konfigurację kanału
-			.on(
-				"postgres_changes",
-				{
-					event: "INSERT",
-					schema: "public",
-					table: "chat_messages",
-					filter: `room_id=eq.${roomId}`,
-				},
-				(payload) => {
-					console.log("New message received:", payload.new);
-					setMessages((prevMessages) => [
-						...prevMessages,
-						payload.new,
-					]);
-				}
-			)
-			.subscribe();
-
-		return subscription;
 	};
 
 	const scrollToBottom = () => {
@@ -115,7 +88,14 @@ const ChatRoom = () => {
 		}
 	};
 
-	// Find the other user in the chat room
+	if (loading || authLoading) {
+		return <div>Ładowanie...</div>;
+	}
+
+	if (error) {
+		return <div>Błąd: {error}</div>;
+	}
+
 	const otherUser = room
 		? room.buyer_id === user.id
 			? room.seller
@@ -143,13 +123,8 @@ const ChatRoom = () => {
 					placeholder="Type a message"
 					value={newMessage}
 					onChange={(e) => setNewMessage(e.target.value)}
-					className="input"
 				/>
-				<button
-					type="submit"
-					className="btn btn-primary"
-					disabled={!newMessage.trim() || sending}
-				>
+				<button type="submit" disabled={!newMessage.trim() || sending}>
 					<Send />
 				</button>
 			</form>

@@ -13,6 +13,8 @@ import MyListings from "./pages/MyListings";
 import ListingDetails from "./pages/ListingDetails";
 import Messages from "./pages/Messages";
 import ChatRoom from "./pages/ChatRoom";
+import AboutUs from "./pages/AboutUs";
+import Contact from "./pages/Contact";
 
 function App() {
 	useEffect(() => {
@@ -33,6 +35,8 @@ function App() {
 				<Route path="/listing-success" element={<ListingSuccess />} />
 				<Route path="/my-listings" element={<MyListings />} />
 				<Route path="/listings/:id" element={<ListingDetails />} />
+				<Route path="/about-us" element={<AboutUs />} />
+				<Route path="/contact" element={<Contact />} />
 				<Route path="/messages" element={<Messages />} />
 				<Route path="/messages/:roomId" element={<ChatRoom />} />
 			</Routes>

@@ -24,6 +24,15 @@ const UserMenu = ({ onSignOut }) => {
 				</li>
 				<li>
 					<Link
+						to="/messages"
+						className="flex items-center gap-2 py-3"
+					>
+						<FileList className="w-4 h-4" />
+						Wiadomosci
+					</Link>
+				</li>
+				<li>
+					<Link
 						to="/settings"
 						className="flex items-center gap-2 py-3"
 					>

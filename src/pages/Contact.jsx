@@ -107,7 +107,7 @@ const Contact = () => {
 						</button>
 					</form>
 					<p className="text-gray-500 text-sm mt-6">
-						&copy; 2024 Carzone. All rights reserved.
+						&copy; 2024 Car-zone. All rights reserved.
 					</p>
 				</div>
 			</footer>
