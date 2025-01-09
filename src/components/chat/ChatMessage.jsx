@@ -10,7 +10,14 @@ const ChatMessage = ({ message, isOwnMessage }) => {
 						: "bg-base-200"
 				}`}
 			>
-				<p>{message.content}</p>
+				{message.image_url && (
+					<img
+						src={message.image_url}
+						alt="Message attachment"
+						className="max-w-full rounded-lg mb-2"
+					/>
+				)}
+				{message.content && <p>{message.content}</p>}
 				<span className="text-xs opacity-70">
 					{new Date(message.created_at).toLocaleTimeString([], {
 						hour: "2-digit",
@@ -21,5 +28,4 @@ const ChatMessage = ({ message, isOwnMessage }) => {
 		</div>
 	);
 };
-
 export default ChatMessage;

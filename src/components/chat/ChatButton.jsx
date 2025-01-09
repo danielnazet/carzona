@@ -2,68 +2,66 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { MessageCircle } from "lucide-react";
 import { createChatRoom } from "../../lib/chat";
-import { useAuth } from "../../hooks/useAuth";
+import PropTypes from "prop-types";
 
 const ChatButton = ({ listing, sellerId }) => {
-	const { user } = useAuth();
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
 
 	const handleStartChat = async () => {
-		if (!user) {
-			navigate("/login");
-			return;
-		}
-
-		if (!listing?.id || !sellerId) {
-			setError("Invalid listing or seller information");
-			return;
-		}
-
 		try {
 			setLoading(true);
 			setError(null);
 
-			const { data, error } = await createChatRoom(
+			const { data, error: chatError } = await createChatRoom(
 				listing.id,
-				user.id,
+				{ name: "Gość", email: "anonymous@example.com" },
 				sellerId
 			);
 
-			if (error) throw error;
-			if (!data?.id) throw new Error("Failed to create chat room");
+			if (chatError) throw chatError;
+			if (!data?.id) throw new Error("Nie udało się utworzyć czatu");
 
-			navigate(`/messages/${data.id}`);
+			navigate(`/messages/${data.id}`, { replace: true });
 		} catch (err) {
 			console.error("Error starting chat:", err);
-			setError("Failed to start chat. Please try again.");
+			setError(err.message || "Nie udało się rozpocząć czatu");
 		} finally {
 			setLoading(false);
 		}
 	};
-
-	if (user?.id === sellerId) return null;
 
 	return (
 		<div>
 			<button
 				onClick={handleStartChat}
 				disabled={loading}
-				className="btn btn-primary w-full"
+				className={`btn btn-primary w-full ${error ? "btn-error" : ""}`}
 			>
 				{loading ? (
 					<span className="loading loading-spinner loading-sm"></span>
 				) : (
 					<>
 						<MessageCircle className="w-4 h-4 mr-2" />
-						Message Seller
+						Wyślij wiadomość
 					</>
 				)}
 			</button>
-			{error && <p className="text-sm text-error mt-2">{error}</p>}
+			{error && (
+				<div className="alert alert-error mt-2">
+					<span className="text-sm">{error}</span>
+				</div>
+			)}
 		</div>
 	);
+};
+
+ChatButton.propTypes = {
+	listing: PropTypes.shape({
+		id: PropTypes.string.isRequired,
+	}).isRequired,
+	sellerId: PropTypes.string.isRequired,
 };
 
 export default ChatButton;

@@ -1,7 +1,50 @@
 import { Link } from "react-router-dom";
-import { User, FileText, Settings, LogOut } from "lucide-react";
+import { useState, useEffect } from "react";
+import { User, FileText, Settings, LogOut, MessageSquare } from "lucide-react";
+import { supabase } from "../../../lib/supabase";
 
 const UserMenu = ({ onSignOut }) => {
+	const [unreadCount, setUnreadCount] = useState(0);
+
+	useEffect(() => {
+		fetchUnreadCount();
+		subscribeToMessages();
+	}, []);
+
+	const fetchUnreadCount = async () => {
+		const {
+			data: { user },
+		} = await supabase.auth.getUser();
+		if (!user) return;
+
+		const { count } = await supabase
+			.from("chat_messages")
+			.select("*", { count: "exact" })
+			.eq("read", false)
+			.neq("sender_id", user.id);
+
+		setUnreadCount(count || 0);
+	};
+
+	const subscribeToMessages = () => {
+		const subscription = supabase
+			.channel("messages_count")
+			.on(
+				"postgres_changes",
+				{
+					event: "*",
+					schema: "public",
+					table: "chat_messages",
+				},
+				() => {
+					fetchUnreadCount();
+				}
+			)
+			.subscribe();
+
+		return () => subscription.unsubscribe();
+	};
+
 	return (
 		<div className="dropdown dropdown-end">
 			<label tabIndex={0} className="btn btn-ghost p-0">
@@ -27,8 +70,13 @@ const UserMenu = ({ onSignOut }) => {
 						to="/messages"
 						className="flex items-center gap-2 py-3"
 					>
-						<FileList className="w-4 h-4" />
-						Wiadomosci
+						<MessageSquare className="w-4 h-4" />
+						<span>Wiadomosci</span>
+						{unreadCount > 0 && (
+							<span className="badge badge-primary badge-sm">
+								{unreadCount}
+							</span>
+						)}
 					</Link>
 				</li>
 				<li>

@@ -24,3 +24,5 @@ export const useAuth = () => {
 
 	return { user, loading };
 };
+
+export default useAuth;

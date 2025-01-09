@@ -1,58 +1,113 @@
 import { supabase } from "./supabase";
 
-export const createChatRoom = async (listingId, buyerId, sellerId) => {
+export const createChatRoom = async (listingId, buyerInfo, sellerId) => {
+	if (!listingId || !sellerId) {
+		return { data: null, error: new Error("Brak wymaganych parametrów") };
+	}
+
 	try {
-		// Sprawdź, czy pokój czatu już istnieje
-		const { data: existingRoom, error: existingRoomError } = await supabase
-			.from("chat_rooms")
-			.select("id")
-			.eq("listing_id", listingId)
-			.eq("buyer_id", buyerId)
-			.eq("seller_id", sellerId)
-			.single();
-
-		if (existingRoomError && existingRoomError.code !== "PGRST116") {
-			throw existingRoomError;
-		}
-
-		if (existingRoom) {
-			return { data: existingRoom, error: null };
-		}
-
-		// Utwórz nowy pokój czatu
+		// Create new chat room
 		const { data, error } = await supabase
 			.from("chat_rooms")
 			.insert({
 				listing_id: listingId,
-				buyer_id: buyerId,
 				seller_id: sellerId,
+				is_anonymous: true,
+				buyer_name: buyerInfo.name || "Gość",
+				buyer_email: buyerInfo.email || "anonymous@example.com",
+				created_at: new Date().toISOString(),
+				updated_at: new Date().toISOString(),
 			})
 			.select()
 			.single();
 
-		return { data, error };
+		if (error) {
+			console.error("Supabase error:", error);
+			throw error;
+		}
+
+		return { data, error: null };
 	} catch (error) {
-		console.error("Błąd podczas tworzenia pokoju czatu:", error);
+		console.error("Error creating chat room:", error);
+		return {
+			data: null,
+			error: new Error(
+				error.message || "Nie udało się utworzyć pokoju czatu"
+			),
+		};
+	}
+};
+
+export const fetchChatRoom = async (roomId, userId) => {
+	try {
+		const { data: room, error: roomError } = await supabase
+			.from("chat_rooms")
+			.select(
+				`
+				*,
+				listing:car_listings (
+					id,
+					title,
+					price
+				),
+				buyer:profiles (
+					id,
+					first_name,
+					last_name
+				),
+				seller:profiles (
+					id,
+					first_name,
+					last_name
+				)
+			`
+			)
+			.eq("id", roomId)
+			.single();
+
+		if (roomError) throw roomError;
+		if (!room) throw new Error("Chat room not found");
+
+		// Check user access to room
+		if (room.buyer_id !== userId && room.seller_id !== userId) {
+			throw new Error("Unauthorized access");
+		}
+
+		return { data: room, error: null };
+	} catch (error) {
+		console.error("Error fetching chat room:", error);
 		return { data: null, error };
 	}
 };
+
 export const fetchUserChats = async (userId) => {
 	try {
 		const { data, error } = await supabase
 			.from("chat_rooms")
 			.select(
 				`
-		  id,
-		  car_listings (id, title, price),
-		  buyer:auth.users(id, email),
-		  seller:auth.users(id, email),
-		  chat_messages (
-			content,
-			created_at,
-			sender_id,
-			read
-		  )
-		`
+				*,
+				listing:car_listings (
+					id,
+					title,
+					price
+				),
+				buyer:profiles (
+					id,
+					first_name,
+					last_name
+				),
+				seller:profiles (
+					id,
+					first_name,
+					last_name
+				),
+				chat_messages (
+					content,
+					created_at,
+					sender_id
+				)
+			`
 			)
 			.or(`buyer_id.eq.${userId},seller_id.eq.${userId}`)
 			.order("updated_at", { ascending: false });
@@ -64,56 +119,36 @@ export const fetchUserChats = async (userId) => {
 				...chat,
 				otherUser: chat.buyer_id === userId ? chat.seller : chat.buyer,
 				lastMessage: chat.chat_messages[chat.chat_messages.length - 1],
-				unreadMessages: chat.chat_messages.filter(
-					(m) => !m.read && m.sender_id !== userId
-				).length,
 			})),
 			error: null,
 		};
 	} catch (error) {
-		console.error("Błąd podczas pobierania czatów użytkownika:", error);
+		console.error("Error fetching user chats:", error);
 		return { data: null, error };
 	}
 };
 
-export const fetchChatRoom = async (roomId, userId) => {
+export const sendMessage = async (roomId, content, senderName = "Gość") => {
 	try {
-		const { data: room, error: roomError } = await supabase
-			.from("chat_rooms")
-			.select(
-				`
-        *,
-        car_listings (
-          id,
-          title,
-          price
-        ),
-        buyer:auth.users(id, email),
-        seller:auth.users(id, email)
-      `
-			)
-			.eq("id", roomId)
+		const { data, error } = await supabase
+			.from("chat_messages")
+			.insert({
+				room_id: roomId,
+				content: content,
+				sender_name: senderName,
+				created_at: new Date().toISOString(),
+			})
+			.select()
 			.single();
 
-		if (roomError) throw roomError;
-		if (!room) throw new Error("Pokój czatu nie został znaleziony");
-
-		// Sprawdź dostęp użytkownika do pokoju
-		if (room.buyer_id !== userId && room.seller_id !== userId) {
-			throw new Error("Nieautoryzowany dostęp");
+		if (error) {
+			console.error("Supabase error:", error);
+			throw error;
 		}
 
-		return {
-			data: {
-				...room,
-				listing: room.car_listings,
-				buyer: room.buyer,
-				seller: room.seller,
-			},
-			error: null,
-		};
+		return { data, error: null };
 	} catch (error) {
-		console.error("Błąd podczas pobierania pokoju czatu:", error);
-		return { data: null, error: error.message };
+		console.error("Error sending message:", error);
+		return { data: null, error };
 	}
 };

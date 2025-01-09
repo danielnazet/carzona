@@ -53,8 +53,11 @@ const ChatList = () => {
 				data?.map((chat) => {
 					const isUserBuyer = chat.buyer_id === user.id;
 					const otherUser = isUserBuyer ? chat.seller : chat.buyer;
+					const messages = chat.chat_messages || [];
 					const lastMessage =
-						chat.chat_messages[chat.chat_messages.length - 1];
+						messages.length > 0
+							? messages[messages.length - 1]
+							: null;
 
 					return {
 						...chat,

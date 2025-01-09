@@ -103,7 +103,7 @@ const ListingDetails = () => {
 						</div>
 
 						<div className="space-y-6">
-							<ContactInfo seller={seller} listing={listing} />
+							<ContactInfo listing={listing} seller={seller} />
 							<SafetyTips />
 						</div>
 					</div>
